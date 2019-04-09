@@ -104,16 +104,16 @@ function __setprompt
 	local SSH_IP=`echo $SSH_CLIENT | awk '{ print $1 }'`
 	local SSH2_IP=`echo $SSH2_CLIENT | awk '{ print $1 }'`
 	if [ $SSH2_IP ] || [ $SSH_IP ] ; then
-		PS1+="[\[${RED}\]\u@\h"
+		PS1+="[\[${LIGHTMAGENTA}\]\u@\h"
 	else
-		PS1+="[\[${RED}\]\u"
+		PS1+="[\[${LIGHTMAGENTA}\]\u"
 	fi
 
 	# current dir
-	PS1+="\[${DARKGRAY}\]:\[${BROWN}\]\w\[${DARKGRAY}\]] "
+	PS1+="\[${DARKGRAY}\]:\[${LIGHTMAGENTA}\]\w\[${DARKGRAY}\]] "
 
 	# number of jobs
-	PS1+="[\[${BROWN}\]$(jobs -l | wc -l)\[${DARKGRAY}\]] "
+	PS1+="[\[${BLUE}\]$(jobs -l | wc -l)\[${DARKGRAY}\]] "
 
 	PS1+="\n"
 
