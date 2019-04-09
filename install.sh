@@ -1,12 +1,13 @@
 #!/bin/bash
 
-# set up new configs and db
+# set up configs
 mkdir ~/.env
-cp ./.bashrc ~/.bashrc
+cp ./dotfiles/.bashrc ~
+cp ./dotfiles/.vimrc ~
+mkdir -p ~/.config/terminator
+cp ./dotfiles/terminator-config ~/.config/terminator/config
 cp ./db.txt ~/.env
 source ~/.bashrc
 
 # run setup script
 chmod +x ./kalisetup.sh && ./kalisetup.sh
-
-
