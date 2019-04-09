@@ -68,20 +68,17 @@ makelistener() {
 alias nl='makelistener'
 
 searchdb() {
-	se="("
+	se=""
 	for arg in "$@"; do 
 		se+="$arg|"
 	done
 	se="${se::-1}" # remove last |
-	se+=")"
-	grep -Ei "$se" ~/db.txt
+	awk '/^#.*('$se').*$/,/^$/' ~/db.txt | grep -A 10000 -B 10000 -E "^#.*$" # ugly hack to get highlighting
 }
 
 alias db='searchdb'
 
 # ps1
-
-alias cpu="grep 'cpu ' /proc/stat | awk '{usage=(\$2+\$4)*100/(\$2+\$4+\$5)} END {print usage}' | awk '{printf(\"%.1f\n\", \$1)}'"
 function __setprompt
 {
 	local LAST_COMMAND=$? # Must come first!
