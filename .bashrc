@@ -74,6 +74,7 @@ searchdb() {
 	done
 	se="${se::-1}" # remove last |
 	se+="]"
+	echo $se >> /tmp/debug.txt
 	grep -Ei $se ~/db.txt
 }
 
@@ -149,7 +150,7 @@ function __setprompt
 
 	# Date
 	#PS1+="\[${DARKGRAY}\][\[${CYAN}\]\$(date +%a) $(date +%b-'%-m')" # Date
-	PS1+="\[${DARKGRAY}\][${BLUE} $(date +'%-I':%M:%S%P)\[${DARKGRAY}\]] " # Time
+	PS1+="\[${DARKGRAY}\][${BLUE}$(date +'%-I':%M:%S%P)\[${DARKGRAY}\]] " # Time
 
 	# User and server
 	local SSH_IP=`echo $SSH_CLIENT | awk '{ print $1 }'`
