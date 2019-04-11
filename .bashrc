@@ -68,14 +68,13 @@ makelistener() {
 alias nl='makelistener'
 
 searchdb() {
-	se="["
+	se="("
 	for arg in "$@"; do 
 		se+="$arg|"
 	done
 	se="${se::-1}" # remove last |
-	se+="]"
-	echo $se >> /tmp/debug.txt
-	grep -Ei $se ~/db.txt
+	se+=")"
+	grep -Ei "$se" ~/db.txt
 }
 
 alias db='searchdb'
