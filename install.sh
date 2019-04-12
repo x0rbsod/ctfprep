@@ -27,10 +27,6 @@ easy_install pip
 cd /opt
 git clone https://github.com/CoreSecurity/impacket.git
 cd /opt/impacket && python setup.py install
-cp /opt/impacket/examples/smbrelayx.py /usr/bin
-chmod 755 /usr/bin/smbrelayx.py
-cp /opt/impacket/examples/wmiexec.py /usr/bin
-chmod 755 /usr/bin/wmiexec.py
 
 # fuzzdb
 cd /opt
