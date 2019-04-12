@@ -15,13 +15,15 @@ source ~/.bashrc
 #  basic setup                   #
 # ------------------------------ #
 apt clean && apt update && apt upgrade -y
-apt install -y terminator git
-apt install -y python-setuptools
+apt install -y terminator git python-setuptools
 easy_install pip
 
 # ------------------------------ #
 #  tools                         #
 # ------------------------------ #
+
+# metasploit
+apt install metasploit-framework
 
 # impacket
 cd /opt
@@ -45,6 +47,10 @@ cd /opt/Veil/Veil-Catapult && ./setup.sh
 # powersploit
 cd /opt
 git clone https://github.com/PowerShellMafia/PowerSploit.git
+
+# searchsploit
+apt -y install exploitdb exploitdb-papers exploitdb-bin-sploits
+searchsploit -u
 
 # windows local enumration
 cd /opt
