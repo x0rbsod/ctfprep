@@ -75,6 +75,9 @@ cd /opt
 git clone https://github.com/InteliSecureLabs/Linux_Exploit_Suggester
 git clone https://github.com/pentestmonkey/unix-privesc-check
 
+# oletools
+apt install python-oletools
+
 # ------------------------------ #
 #  finish up                     #
 # ------------------------------ #
