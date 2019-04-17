@@ -72,7 +72,7 @@ getshellcode() {
 	for i in $(objdump -d $1 -M intel |grep "^ " |cut -f2); do echo -n '\x'$i; done;echo
 }
 
-alias getshell='getshellcode'
+alias gsc='getshellcode'
 
 # ------------------------------------ #
 #  prompt                              #
