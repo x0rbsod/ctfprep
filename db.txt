@@ -173,8 +173,25 @@ netsh interface portproxy add v4tov4 listenport=9090 listenaddress=192.168.0.100
 netsh advfirewall set currentprofile state off
 netsh advfirewall set allprofiles state off
 
-# TODO: Add WMI queries and netsh/netsh forwarding
+# WMIC Process Listing (Windows)
+wmic /node:192.168.1.1 /user:Administrator /password:letmein process list full
 
+# Lateral Movement with WMIC / Run command with WMIC (Windows)
+wmic /node:192.168.1.1 /user:Administrator /password:letmein process call create "calc.exe"
 
+# WMIC Get List of Installed Applications (Windows)
+wmic /node:192.168.1.1 /user:Administrator /password:letmein product get
 
+# WMIC Turn on Remote Desktop (Windows)
+wmic /node:192.168.1.1 /user:Administrator /password:letmein RDToggle where ServerName="server name" call SetAllowTSConnections 1
 
+# WMIC Get List of Users and System Users (Windows)
+wmic /node:192.168.1.1 /user:Administrator /password:letmein useraccount list
+wmic /node:192.168.1.1 /user:Administrator /password:letmein group list
+wmic /node:192.168.1.1 /user:Administrator /password:letmein sysaccount list
+
+# WMIC Get List of Applied Patches (Windows)
+wmic /node:192.168.1.1 /user:Administrator /password:letmein qfe list
+
+# WMIC Get List of Shares (Windows)
+wmic /node:192.168.1.1 /user:Administrator /password:letmein share list
