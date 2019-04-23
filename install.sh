@@ -19,7 +19,19 @@ cp ./db.txt ~/.env
 #  basic setup                   #
 # ------------------------------ #
 apt clean && apt update && apt upgrade -y
-apt install -y terminator git python-setuptools ltrace gcc-multilib strace 
+apt install -y \
+   terminator \
+   git \
+   python-setuptools \
+   ltrace \
+   gcc-multilib \
+   strace \
+   python-pip \
+   python-dev \
+   libssl-dev \
+   libffi-dev \
+   build-essential
+pip install --upgrade pip
 
 # ------------------------------ #
 #  tools                         #
@@ -27,6 +39,9 @@ apt install -y terminator git python-setuptools ltrace gcc-multilib strace
 
 # metasploit
 apt install metasploit-framework
+
+# pwntools
+pip install --upgrade pwntools
 
 # impacket
 git clone https://github.com/CoreSecurity/impacket.git /opt/impacket
