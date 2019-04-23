@@ -58,12 +58,8 @@ makelistener() {
 alias nl='makelistener'
 
 searchdb() {
-	se=""
-	for arg in "$@"; do 
-		se+="$arg|"
-	done
-	se="${se::-1}" # remove last |
-	awk '/^#.*('$se').*$/,/^$/' ~/db.txt | grep -A 10000 -B 10000 -E "^#.*$" # ugly hack to get highlighting
+	se=$(IFS='|'; printf '%s' "$*")
+	cat ~/.env/db.txt | sed -En "/^#.*($se)/I,/^$/p" | grep -A 10000 -B 10000 -E "^#.*$" # ugly hack to get highlighting
 }
 
 alias db='searchdb'
